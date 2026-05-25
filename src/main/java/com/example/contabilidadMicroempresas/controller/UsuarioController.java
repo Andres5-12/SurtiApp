@@ -44,4 +44,18 @@ public class UsuarioController {
         usuarioService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+    // 5. Iniciar Sesión (POST http://localhost:8080/api/usuarios/login)
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
+        // Buscamos al usuario por su email
+        Usuario usuarioExistente = usuarioService.obtenerPorEmail(loginRequest.getEmail());
+
+        if (usuarioExistente != null && usuarioExistente.getPassword().equals(loginRequest.getPassword())) {
+            // Si las credenciales coinciden, devolvemos el usuario completo (incluye su ID)
+            return ResponseEntity.ok(usuarioExistente);
+        } else {
+            // Si falla, devolvemos un estado 401 Unauthorized
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+        }
+    }
 }
