@@ -44,4 +44,21 @@ public class NegocioController {
         negocioService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+    // 5. Endpoint para actualizar parcialmente la base de la caja (PATCH http://localhost:8080/api/negocios/{id}/base)
+    @PatchMapping("/{id}/base")
+    public ResponseEntity<?> actualizarBase(@PathVariable Long id, @RequestBody java.util.Map<String, Double> body) {
+        try {
+            Double nuevaBase = body.get("baseCaja");
+            if (nuevaBase == null) {
+                return ResponseEntity.badRequest().body("El campo 'baseCaja' es requerido en el cuerpo de la petición.");
+            }
+
+            Negocio negocioActualizado = negocioService.actualizarBaseCaja(id, nuevaBase);
+            return ResponseEntity.ok(negocioActualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar la base de caja.");
+        }
+    }
 }

@@ -7,5 +7,6 @@ public interface NegocioService {
     List<Negocio> obtenerTodos();
     Negocio guardar(Negocio negocio);
     Negocio obtenerPorId(Long id);
+    Negocio actualizarBaseCaja(Long id, Double nuevaBase);
     void eliminar(Long id);
 }

@@ -39,4 +39,20 @@ public class NegocioServiceImpl implements NegocioService {
         }
         negocioRepository.deleteById(id);
     }
+    @Override
+    public Negocio actualizarBaseCaja(Long id, Double nuevaBase) {
+        // Buscamos el negocio existente; si no existe, lanzamos una excepción
+        Negocio negocioExistente = negocioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: El negocio con ID " + id + " no existe."));
+
+        // Validamos que el valor no sea negativo por lógica de negocio
+        if (nuevaBase == null || nuevaBase < 0) {
+            throw new IllegalArgumentException("La base de caja no puede ser un valor negativo o nulo.");
+        }
+
+        // Actualizamos únicamente el campo solicitado
+        negocioExistente.setBaseCaja(nuevaBase);
+
+        return negocioRepository.save(negocioExistente);
+    }
 }

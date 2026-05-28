@@ -25,6 +25,9 @@ public class Negocio {
     @Column(name = "identificacion_fiscal", length = 50)
     private String identificacionFiscal; // NIT o RUT en Colombia
 
+    @Column(name = "base_caja")
+    private Double baseCaja = 0.0; // Valor por defecto 0.0 para evitar NullPointerException
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
