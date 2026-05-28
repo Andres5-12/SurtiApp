@@ -39,6 +39,11 @@ public class Transaccion {
     @Column(nullable = false, length = 30)
     private String estado; // "ACTIVO", "ANULADO", "PENDIENTE"
 
+    // 3. NUEVO: Agregar método de pago opcional para soportar las nuevas funciones de finanzas
+    // Los valores enviados por la App serán: "EFECTIVO", "NEQUI", "DAVIPLATA", "DATAFONO"
+    @Column(name = "metodo_pago", length = 30)
+    private String metodoPago;
+
     @Column(nullable = false)
     private LocalDateTime fecha;
 

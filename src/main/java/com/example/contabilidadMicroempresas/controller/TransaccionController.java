@@ -52,4 +52,11 @@ public class TransaccionController {
         transaccionService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Endpoint de Actualización (PUT http://localhost:8080/api/transacciones/{id})
+    @PutMapping("/{id}")
+    public ResponseEntity<Transaccion> actualizar(@PathVariable Long id, @RequestBody Transaccion transaccion) {
+        Transaccion transaccionActualizada = transaccionService.actualizar(id, transaccion);
+        return ResponseEntity.ok(transaccionActualizada);
+    }
 }

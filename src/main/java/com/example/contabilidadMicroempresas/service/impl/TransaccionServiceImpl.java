@@ -52,6 +52,31 @@ public class TransaccionServiceImpl implements TransaccionService {
     }
 
     @Override
+    public Transaccion actualizar(Long id, Transaccion transaccionDetalles) {
+        Transaccion transaccionExistente = obtenerPorId(id);
+
+        // Validar que el negocio y la categoría existan antes de actualizar (tal como en el método guardar)
+        if (transaccionDetalles.getNegocio() == null || !negocioRepository.existsById(transaccionDetalles.getNegocio().getId())) {
+            throw new RuntimeException("Error: El negocio asociado no existe.");
+        }
+        if (transaccionDetalles.getCategoria() == null || !categoriaRepository.existsById(transaccionDetalles.getCategoria().getId())) {
+            throw new RuntimeException("Error: La categoría asociada no existe.");
+        }
+
+        // Actualizamos los campos permitidos
+        transaccionExistente.setDescripcion(transaccionDetalles.getDescripcion());
+        transaccionExistente.setMonto(transaccionDetalles.getMonto());
+        transaccionExistente.setTipo(transaccionDetalles.getTipo());
+        transaccionExistente.setEstado(transaccionDetalles.getEstado());
+        transaccionExistente.setFecha(transaccionDetalles.getFecha());
+        transaccionExistente.setNegocio(transaccionDetalles.getNegocio());
+        transaccionExistente.setCategoria(transaccionDetalles.getCategoria());
+        transaccionExistente.setMetodoPago(transaccionDetalles.getMetodoPago()); // Nuevo campo
+
+        return transaccionRepository.save(transaccionExistente);
+    }
+
+    @Override
     public void eliminar(Long id) {
         Transaccion transaccion = obtenerPorId(id);
         // En lugar de un borrado físico, puedes cambiar el estado a "ELIMINADO" o "INACTIVO"

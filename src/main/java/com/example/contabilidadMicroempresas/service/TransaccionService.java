@@ -8,5 +8,6 @@ public interface TransaccionService {
     List<Transaccion> obtenerPorNegocioYEstado(Long negocioId, String estado);
     Transaccion guardar(Transaccion transaccion);
     Transaccion obtenerPorId(Long id);
+    Transaccion actualizar(Long id, Transaccion transaccionDetalles);
     void eliminar(Long id);
 }
